@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle - Servidores Minecraft</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Painel Minecraft</a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="/">Início</a>
+                <a class="nav-link" href="/criar_servidor">Criar Servidor</a>
+                <a class="nav-link" href="/config">Configurações</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Bem-vindo ao Painel de Controle</h1>
+                <p class="text-center">Gerencie seus servidores Minecraft de forma fácil e rápida.</p>
+            </div>
+        </div>
+        <div class="container mt-5">
+        <div class="row" id="lista-servidores"></div>
+    </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Criar Novo Servidor</h5>
+                        <p class="card-text">Configure e crie um novo servidor Minecraft (Java ou Bedrock).</p>
+                        <a href="/criar_servidor" class="btn btn-primary">Ir para Criar Servidor</a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Ver Informações</h5>
+                        <p class="card-text">Monitore o status e detalhes dos seus servidores.</p>
+                        <a href="/servidores" class="btn btn-secondary">Ver Painel</a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    
+
+    <script>
+        async function carregarServidores() {
+            const response = await fetch('/api/servidores');
+            const servidores = await response.json();
+
+            const container = document.getElementById('lista-servidores');
+            container.innerHTML = ''; // limpa antes de atualizar
+
+            servidores.forEach(servidor => {
+                const div = document.createElement('div');
+                div.className = 'col-md-6 mb-4';
+
+                div.innerHTML = `
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-dark text-white">
+                            ${servidor.nome}
+                        </div>
+                        <div class="card-body">
+                            <div
+                                class="row justify-content-start align-items-start g-2"
+                            >
+                                <div class="col">
+                                    <p><strong>ID:</strong> ${servidor.id}</p>
+                                    <p><strong>Tipo:</strong> ${servidor.tipo}</p>
+                                    <p><strong>Versão:</strong> ${servidor.versao}</p>
+                                </div>
+                                <div class="col">
+                                    <p><strong>RAM:</strong> ${servidor.ram} GB</p>
+                                    <p><strong>Porta:</strong> ${servidor.porta}</p>
+                                    <p><strong>Status:</strong> ${servidor.status}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="/painel_informacoes/${servidor.id}" class="btn btn-primary btn-sm">
+                                Abrir Painel
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(div);
+            });
+        }
+
+        // carrega ao abrir a página
+        carregarServidores();
+
+        // atualiza a cada 5 segundos
+        setInterval(carregarServidores, 5000);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
