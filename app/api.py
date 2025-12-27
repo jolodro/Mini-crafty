@@ -3,8 +3,8 @@ import shutil
 import threading
 
 from flask import jsonify, render_template, request, Blueprint
+from flask import current_app as app
 from .models import Servidor, Configuracao, db
-from app import app
 from app.config import BASE_DIR
 from app.utils.ftp import criar_servidor_ftp
 from .api_server.manager import start_server, stop_server, get_status, get_logs, send_command

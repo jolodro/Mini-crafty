@@ -1,13 +1,13 @@
 import os
 import uuid
 
-from app import app
 from app.config import PATH_SERVERS
 from .utils.eula import criar_eula
 from .utils.downloader import baixar_servidor_java, baixar_servidor_bedrock, versoes
 from .models import Servidor, Configuracao, db
 from .api_server.manager import add_server
 from flask import render_template, request, redirect, jsonify
+from flask import current_app as app
 
 
 
