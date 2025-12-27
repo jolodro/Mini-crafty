@@ -2,10 +2,12 @@
 bind = "0.0.0.0:8000"
 
 # Quantidade de workers
-workers = 2
+workers = 1
 
 # Tipo de worker
 worker_class = "sync"
+
+worker_class = "gthread"
 
 # Tempo máximo antes de matar worker travado
 timeout = 120
